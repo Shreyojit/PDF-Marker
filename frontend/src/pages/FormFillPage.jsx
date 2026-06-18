@@ -5,6 +5,7 @@ import {
   getFields,
   getResponses,
   saveResponses,
+  clearResponses,
 } from "../api/pdfApi";
 import PdfCanvas from "../components/PdfCanvas";
 import FillOverlay from "../components/FillOverlay";
@@ -55,6 +56,18 @@ function FormFillPage() {
     }));
   }
 
+  async function handleClearResponses() {
+    const ok = confirm("Clear all filled values and start fresh?");
+    if (!ok) return;
+    try {
+      await clearResponses(documentId);
+      setResponses({});
+    } catch (error) {
+      alert("Failed to clear responses");
+      console.error(error);
+    }
+  }
+
   async function handleSaveResponses() {
     try {
       const payload = Object.keys(responses).map((fieldId) => ({
@@ -88,6 +101,12 @@ function FormFillPage() {
 
         <div className="actions">
           <button onClick={() => navigate("/")}>Back</button>
+          <button
+            onClick={handleClearResponses}
+            style={{ background: "#6b7280" }}
+          >
+            Clear Form
+          </button>
           <button onClick={handleSaveResponses}>Save Responses</button>
           <DownloadButton
             documentId={documentId}

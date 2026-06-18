@@ -42,6 +42,13 @@ export async function deleteField(fieldId) {
   return response.data;
 }
 
+export async function clearResponses(documentId) {
+  const response = await axios.delete(
+    `${API_BASE_URL}/responses/document/${documentId}`
+  );
+  return response.data;
+}
+
 export async function saveResponses(documentId, responses) {
   const response = await axios.post(
     `${API_BASE_URL}/responses/document/${documentId}`,

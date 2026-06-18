@@ -17,8 +17,8 @@ function FillOverlay({ fields, responses, onChange }) {
               type="checkbox"
               style={style}
               checked={responses[field.id] === "true"}
-              onChange={(event) =>
-                onChange(field.id, event.target.checked ? "true" : "false")
+              onChange={(e) =>
+                onChange(field.id, e.target.checked ? "true" : "false")
               }
             />
           );
@@ -31,9 +31,9 @@ function FillOverlay({ fields, responses, onChange }) {
               className="pdf-input signature-input"
               type="text"
               style={style}
-              placeholder={field.field_name}
+              placeholder=""
               value={responses[field.id] || ""}
-              onChange={(event) => onChange(field.id, event.target.value)}
+              onChange={(e) => onChange(field.id, e.target.value)}
             />
           );
         }
@@ -44,9 +44,9 @@ function FillOverlay({ fields, responses, onChange }) {
             className="pdf-input"
             type="text"
             style={style}
-            placeholder={field.field_name}
+            placeholder=""
             value={responses[field.id] || ""}
-            onChange={(event) => onChange(field.id, event.target.value)}
+            onChange={(e) => onChange(field.id, e.target.value)}
           />
         );
       })}

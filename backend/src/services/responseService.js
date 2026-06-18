@@ -32,7 +32,15 @@ async function getResponsesByDocumentId(documentId) {
   return result.rows;
 }
 
+async function clearResponsesByDocumentId(documentId) {
+  await pool.query(
+    `DELETE FROM pdf_responses WHERE document_id = $1`,
+    [documentId]
+  );
+}
+
 module.exports = {
   saveResponses,
   getResponsesByDocumentId,
+  clearResponsesByDocumentId,
 };

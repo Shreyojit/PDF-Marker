@@ -38,7 +38,17 @@ async function getResponses(req, res, next) {
   }
 }
 
+async function clearResponses(req, res, next) {
+  try {
+    await responseService.clearResponsesByDocumentId(req.params.documentId);
+    res.json({ success: true, message: "Responses cleared" });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   saveResponses,
   getResponses,
+  clearResponses,
 };
