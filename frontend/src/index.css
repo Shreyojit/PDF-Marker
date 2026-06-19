@@ -319,6 +319,21 @@ a {
   background: #b91c1c;
 }
 
+.sidebar-field-row.active {
+  background: #dbeafe;
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: 0 -4px;
+  transition: background 0.15s;
+}
+
+.sidebar-field-row.new-field {
+  background: #eff6ff;
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: 0 -4px;
+}
+
 .fill-overlay {
   pointer-events: none;
 }

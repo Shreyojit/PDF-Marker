@@ -43,6 +43,7 @@ function TemplateBuilder() {
   const [currentPage, setCurrentPage] = useState(1);
   const [lastSizes, setLastSizes] = useState({ ...DEFAULT_SIZES });
   const [newFieldTempId, setNewFieldTempId] = useState(null);
+  const [activeFieldId, setActiveFieldId] = useState(null);
 
   async function loadData() {
     try {
@@ -176,6 +177,7 @@ function TemplateBuilder() {
           onUpdate={handleUpdateField}
           onDelete={handleDeleteField}
           focusId={newFieldTempId}
+          activeId={activeFieldId}
         />
 
         <div className="builder-pdf">
@@ -189,6 +191,7 @@ function TemplateBuilder() {
                 onDelete={handleDeleteField}
                 onUpdate={handleUpdateField}
                 onSizeChange={handleSizeChange}
+                onActivate={setActiveFieldId}
               />
             )}
           />

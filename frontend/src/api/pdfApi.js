@@ -95,6 +95,11 @@ export async function deletePdf(documentId) {
   return response.data;
 }
 
+export async function getCompletedForms() {
+  const response = await axios.get(`${API_BASE_URL}/responses/completed`);
+  return response.data.data;
+}
+
 export async function importTemplate(pdfFile, fieldsJsonFile) {
   const formData = new FormData();
 

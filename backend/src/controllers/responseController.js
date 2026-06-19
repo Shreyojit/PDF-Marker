@@ -47,8 +47,18 @@ async function clearResponses(req, res, next) {
   }
 }
 
+async function getCompletedForms(req, res, next) {
+  try {
+    const forms = await responseService.getCompletedDocuments();
+    res.json({ success: true, data: forms });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   saveResponses,
   getResponses,
   clearResponses,
+  getCompletedForms,
 };

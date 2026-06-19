@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PdfUploader from "../components/PdfUploader";
 import TemplateImporter from "../components/TemplateImporter";
 import { getAllPdfs, exportTemplate, deletePdf } from "../api/pdfApi";
 
 function Dashboard() {
+  const navigate = useNavigate();
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -58,6 +59,18 @@ function Dashboard() {
       <section className="card">
         <h3>Import Existing Marked Template</h3>
         <TemplateImporter onImported={loadDocuments} />
+      </section>
+
+      <section className="card" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div>
+          <h3 style={{ margin: 0 }}>Completed Forms</h3>
+          <p style={{ margin: "4px 0 0", color: "#6b7280", fontSize: 13 }}>
+            View and download PDFs that have been filled in
+          </p>
+        </div>
+        <button onClick={() => navigate("/completed")} style={{ background: "#059669" }}>
+          View Completed Forms
+        </button>
       </section>
 
       <section className="card">

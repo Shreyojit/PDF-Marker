@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-function FieldBox({ field, onDelete, onUpdate, onSizeChange }) {
+function FieldBox({ field, onDelete, onUpdate, onSizeChange, onActivate }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(field.field_name);
   const boxRef = useRef(null);
@@ -140,6 +140,7 @@ function FieldBox({ field, onDelete, onUpdate, onSizeChange }) {
         userSelect: "none",
       }}
       onMouseDown={handleDragStart}
+      onMouseEnter={() => onActivate && onActivate(field.id || field.temp_id)}
     >
       {isEditing ? (
         <input
@@ -183,7 +184,7 @@ function FieldBox({ field, onDelete, onUpdate, onSizeChange }) {
   );
 }
 
-function MarkerOverlay({ fields, pageSize, onDelete, onUpdate, onSizeChange }) {
+function MarkerOverlay({ fields, pageSize, onDelete, onUpdate, onSizeChange, onActivate }) {
   if (!pageSize) return null;
   return (
     <div className="overlay">
@@ -194,6 +195,7 @@ function MarkerOverlay({ fields, pageSize, onDelete, onUpdate, onSizeChange }) {
           onDelete={onDelete}
           onUpdate={onUpdate}
           onSizeChange={onSizeChange}
+          onActivate={onActivate}
         />
       ))}
     </div>

@@ -1,9 +1,10 @@
 import { useRef, useEffect } from "react";
 
-function FieldSidebar({ fields, onUpdate, onDelete, focusId }) {
+function FieldSidebar({ fields, onUpdate, onDelete, focusId, activeId }) {
   const inputRefs = useRef({});
+  const rowRefs = useRef({});
 
-  // When a new field is added, scroll it into view and focus its input
+  // New field added → scroll + focus + select
   useEffect(() => {
     if (!focusId) return;
     const el = inputRefs.current[focusId];
@@ -14,7 +15,13 @@ function FieldSidebar({ fields, onUpdate, onDelete, focusId }) {
     }
   }, [focusId]);
 
-  // Group fields by page number
+  // Hover on canvas field → scroll to sidebar row (highlight only, no input focus)
+  useEffect(() => {
+    if (!activeId) return;
+    const el = rowRefs.current[activeId];
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [activeId]);
+
   const byPage = fields.reduce((acc, f) => {
     const p = f.page_number || 1;
     if (!acc[p]) acc[p] = [];
@@ -22,9 +29,7 @@ function FieldSidebar({ fields, onUpdate, onDelete, focusId }) {
     return acc;
   }, {});
 
-  const pages = Object.keys(byPage)
-    .map(Number)
-    .sort((a, b) => a - b);
+  const pages = Object.keys(byPage).map(Number).sort((a, b) => a - b);
 
   const typeLabel = { text: "T", checkbox: "☑", signature: "✍" };
 
@@ -44,31 +49,24 @@ function FieldSidebar({ fields, onUpdate, onDelete, focusId }) {
 
           {byPage[page].map((field) => {
             const key = field.id || field.temp_id;
-            const isNew = field.isNew;
+            const isActive = key === activeId;
+            const isNew = field.isNew && key === focusId;
 
             return (
               <div
                 key={key}
-                className="sidebar-field-row"
-                style={
-                  isNew && key === focusId
-                    ? { background: "#eff6ff", borderRadius: 4, padding: "2px 0" }
-                    : {}
-                }
+                ref={(el) => { if (el) rowRefs.current[key] = el; }}
+                className={`sidebar-field-row${isActive ? " active" : ""}${isNew ? " new-field" : ""}`}
               >
                 <span className={`sidebar-type-badge ${field.field_type}`}>
                   {typeLabel[field.field_type] || "T"}
                 </span>
 
                 <input
-                  ref={(el) => {
-                    if (el) inputRefs.current[key] = el;
-                  }}
+                  ref={(el) => { if (el) inputRefs.current[key] = el; }}
                   className="sidebar-field-input"
                   value={field.field_name}
-                  onChange={(e) =>
-                    onUpdate({ ...field, field_name: e.target.value })
-                  }
+                  onChange={(e) => onUpdate({ ...field, field_name: e.target.value })}
                   placeholder="Field name"
                 />
 
